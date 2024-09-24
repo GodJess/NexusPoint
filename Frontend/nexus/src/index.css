@@ -1,0 +1,5 @@
+body{
+    overflow-y: hidden;
+    display: flex;
+    font-family: "Neometric";
+}
