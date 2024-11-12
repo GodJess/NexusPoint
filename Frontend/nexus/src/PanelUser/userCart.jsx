@@ -6,8 +6,8 @@ import useHook from '../Hooks/Hooks'
 
 
 
-const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messengers})=>{
-    const {userinfo} = useHook()
+const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messengers, setActiveCompanion})=>{
+    const {userinfo, storage} = useHook()
 
     
     const CreateChat = ()=>{
@@ -28,11 +28,24 @@ const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messeng
       fetch()
     }
 
+    const getCompanion = (activeChat)=>{
+      const fetch = async()=>{
+        const response = await axios.post(`http://127.0.0.1:8000/getCompanion/${userinfo.user_id}/`, {"chat_id" : activeChat})
+        if(response.data != null){
+          setActiveCompanion(response.data)
+          console.log("GetCompanion работает")
+          console.log(response.data)
+        }
+      }
+      fetch()
+    }
+
 
     const setChat =(id)=>{
       if(id != null && id != undefined){
         localStorage.setItem('activeChat', id)
         setActiveChat(id)
+        getCompanion(id)
       }
       else{
         CreateChat()
@@ -46,7 +59,7 @@ const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messeng
       return e
     }
 
-    if(el.user_id == userinfo.user_id){
+    if(el.user_id == storage){
         return(
             <div key={el.id} className="message-container" style={{background: activeChat === chatId ? '#000' : 'linear-gradient(99deg, rgba(74,72,72,1) 0%, rgba(51,2,2,0.8823178929775035) 100%)'}}>
                 <div className="message-photo-block">

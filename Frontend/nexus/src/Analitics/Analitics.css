@@ -1,0 +1,155 @@
+.main-chart-window{
+    display: block;
+    position: relative;
+    width: 1400px;
+    min-width: 300px;
+    margin: auto;
+    height: 100%;
+    background-image: url('../assets/bAck.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgb(1, 1, 20);
+    border-left: solid 3px rgba(44,10,10,1);
+    border-right: solid 3px rgba(44,10,10,1);
+}
+
+.chart-blocks{
+    display: flex;
+    width: 80%;
+    margin: auto;
+    flex: wrap;
+    min-width: 380px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.block-diagrams{
+    display: flex;
+    width: 48%;
+    min-width: 300px;
+    margin-bottom: 20px;
+}
+.block-diagrams.first{
+    width: 100%;
+}
+
+.diagrams-fields{
+    display: block;
+    width: 100%;
+    height: 320px;
+    background: rgb(0,0,0);
+    background: linear-gradient(156deg, rgba(0, 0, 0, 0.829) 0%, rgba(16, 1, 1, 0.829) 35%, rgba(44, 10, 10, 0.836) 47%, rgba(55, 3, 3, 0.842) 96%);
+    border: solid 1px white;
+    border-radius: 20px;
+}
+.diagrams-fields.first{
+    border: solid 2px #e62455;
+}
+.diagrams-fields.second {
+    border: solid 2px #e624c6;
+}
+.diagrams-fields.fird {
+    border: solid 2px #12dceb;
+}
+
+.diagrams-content{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+.contentDia{
+    width: 250px;
+    height: 250px;
+}
+.chart-container {
+    height: 250px; /* Установите желаемую высоту */
+    width: 390px; /* Ширина на 100% */
+}
+.line-chart-content{
+    width: 60%;
+    height: 250px;
+}
+
+
+@media(max-width: 800px){
+    .block-diagrams{
+        display: flex;
+        width: 100%;
+        min-width: 300px;
+        margin-bottom: 20px;
+    }
+
+    .chart-blocks{
+        justify-content: center;
+    }
+}
+
+.diagrams-headers{
+    width: 100%;
+    display: flex;
+    background: rgb(0,0,0);
+    background: linear-gradient(156deg, rgba(0,0,0,1) 0%, rgba(16,1,1,1) 35%, rgba(44,10,10,1) 47%, rgba(55,3,3,1) 96%);
+    justify-content: center;
+    padding-top: 15px;
+    padding-bottom: 15px ;
+    border-top-left-radius: 30px;
+    border-top-right-radius: 30px;
+}
+.diagrams-headers p{
+    margin: 0px;
+    margin-left: 15px;
+    padding: 0px;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+}
+.headerInfo{
+    width: 100%;
+    display: flex;
+    height: 120px;
+    background: rgb(0,0,0);
+    background: linear-gradient(156deg, rgba(0,0,0,1) 0%, rgba(16,1,1,1) 35%, rgba(44,10,10,1) 47%, rgba(55,3,3,1) 96%);
+    margin-bottom: 70px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.block-home{
+    height: 50px;
+    margin-left: 80px;
+    color: white;
+    font-size: 25px;
+}
+
+.block-home p{
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin: 0px;
+}
+
+.LinkToHome{
+    list-style: none;
+    text-decoration: none;
+    color: white;
+    transition: all 0.5s ease;
+    font-size: 40px;
+}
+
+
+.LinkToHome:hover{
+    list-style: none;
+    text-decoration: none;
+    color: rgb(185, 183, 183);
+}
+.photo-header{
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    margin-right: 80px;
+    border: solid 2px #fff;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

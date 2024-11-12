@@ -2,8 +2,9 @@ import { useCallback } from "react";
 import "../App.css"
 import vin from '../assets/Vin.jpg'
 import useHook from "../Hooks/Hooks"
+import CompanInfo from "./CompainInfo";
 
-const Header = ({setModal, search, setSearch, setSearchUser})=>{
+const Header = ({setModal, search, setSearch, activeCompanion, setActiveCompanion})=>{
 
     const {userinfo, users} = useHook();
 
@@ -36,32 +37,7 @@ const Header = ({setModal, search, setSearch, setSearchUser})=>{
               </div>
             </div>
           </div>
-          <div className="header-message-info">
-            <div className="about-user">
-                <div className="photo-block">
-                  <div className="photo" style={{ backgroundImage: `url(${userinfo.user_img})`}}></div>
-                </div>
-                <div className="user-info-block">
-                  <div className="block-name">{userinfo.user_first_name} {userinfo.user_last_name}</div>
-                  <div className="online-params"><ion-icon name="radio-button-on"></ion-icon> Online</div>
-                  <div className="count-message"> ~ 5000 messages</div>
-                </div>
-            </div>
-            <div className="user-communication">
-              <div className="iconn">
-                <ion-icon className="icons" name="search"></ion-icon>
-              </div>
-              <div className="iconn">
-                <ion-icon className="icons" name="call"></ion-icon>
-              </div>
-              <div className="iconn">
-                <ion-icon className="icons" name="videocam"></ion-icon>
-              </div>
-              <div className="iconn btn">
-                <ion-icon  className="icons"name="apps"></ion-icon>
-              </div>
-            </div>
-          </div>
+          <CompanInfo activeCompanion={activeCompanion} setActiveCompanion={setActiveCompanion} />
       </header>
     )
 }

@@ -1,0 +1,126 @@
+.block-Loadimg-window{
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    overflow-y: hidden;
+    min-width: 380px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.795);
+}
+
+.loadimgBlock{
+    transition: all 0.5s ease;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: auto;
+    width: 400px;
+    min-width: 300px;
+    height: auto;
+    background: rgb(255,255,255);
+    /* background: linear-gradient(180deg, rgba(255,255,255,1) 31%, rgba(64,60,60,1) 92%); */
+    border-radius: 25px;
+    animation: modal 0.5s linear forwards;
+}
+
+@keyframes modal{
+    0%{
+        margin-top: 100%;
+    }
+    100%{
+        margin-top: 300px;
+    }
+}
+
+.loadImg-header{
+    width: 80%;
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: black;
+    font-size: 25px;
+    font-weight: bold;
+    border-bottom: solid 2px black;
+}
+
+
+
+.closeLoad{
+    width: 40px;
+    height: 40px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+/* .closeLoad:hover{
+    background-color: rgb(107, 6, 6);
+} */
+
+.blockInputLoad{
+    width: 70%;
+    height: 200px;
+    margin: 20px 0px  5px 0px;
+    border-radius: 25px;
+    border: solid 4px black;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.blockInputLoad p{
+    font-size: 150px;
+}
+.inputIMG{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    border-radius: 25px;
+}
+.LoadForm{
+    width: 70%;
+    height: 50px;
+    margin-bottom: 30px;
+    background-color: black;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+.LoadForm:hover{
+    background-color: rgb(29, 2, 2);
+}
+
+
+.photoForm{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.LoadForm button{
+    width: 90%;
+    margin: auto;
+    height: 100%;
+    border: none;
+    background: none;
+    border-radius: 20px;
+    font-size: 25px;
+    font-weight: bold;
+    align-items: center;
+    color: white;
+    display: flex;
+    justify-content: flex-start;
+}

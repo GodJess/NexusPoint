@@ -1,0 +1,73 @@
+
+.loading-window{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    justify-content: center;
+    align-items: center;
+    min-width: 300px;
+}
+.load-animation{
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+.circle{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: solid 6px rgba(71, 69, 69, 0.589);
+}
+.circle-anim{
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    border-radius:50% ;
+    border-top: solid 6px white;
+    animation: loading  4s linear infinite;
+}
+
+@keyframes loading{
+    0%{
+        transform: rotate(0);
+    }
+    100%{
+        transform: rotate(360deg);
+    }
+}
+
+.spinner {
+    animation: rotator 1.4s linear infinite;
+}
+
+@keyframes rotator {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(270deg); }
+}
+
+.path {
+    stroke-dasharray: 187;
+    stroke-dashoffset: 0;
+    transform-origin: center;
+    animation: dash 1.4s ease-in-out infinite, colors 5.6s ease-in-out infinite; // Исправлено: объединение анимаций
+}
+
+@keyframes colors {
+    0% { stroke: #4285F4; }
+    25% { stroke: #DE3E35; }
+    50% { stroke: #F7C223; }
+    75% { stroke: #1B9A59; }
+    100% { stroke: #4285F4; }
+}
+
+@keyframes dash {
+    0% { stroke-dashoffset: 187; }
+    50% {
+        stroke-dashoffset: 46.75; 
+        transform: rotate(135deg); 
+    }
+    100% {
+        stroke-dashoffset: 187; 
+        transform: rotate(450deg); 
+    }
+}

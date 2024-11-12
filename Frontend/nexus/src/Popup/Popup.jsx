@@ -1,9 +1,13 @@
 import useHook from '../Hooks/Hooks'
 import './popup.css'
+import { Link } from 'react-router-dom'
+import camera from '../assets/camera.png'
+
+const Popup = ({modal, setModal, setIsAuth, setLoadImg, loadImg})=>{
 
 
-const Popup = ({modal, setModal, setIsAuth})=>{
 
+    const {userinfo} = useHook()
 
     const ClosePopup = ()=>{
         console.log("Окно закрыто")
@@ -11,9 +15,12 @@ const Popup = ({modal, setModal, setIsAuth})=>{
     }
 
 
+
+
     const LogOut = ()=>{
         setInterval(()=>{
             localStorage.removeItem("userId")
+            localStorage.removeItem('activeChat')
             setIsAuth(false)
         }, 1000)
     }
@@ -31,6 +38,27 @@ const Popup = ({modal, setModal, setIsAuth})=>{
                         <div className="closePopup" onClick={()=>ClosePopup()}>
                             <ion-icon name="menu"></ion-icon>
                         </div>
+                    </div>
+                    <div className="user-about-info">
+                        <div className="user-image-info">
+                            <div className="userImg" style={{backgroundImage: `url(${userinfo.user_img})`}}>
+                                <div className="blockCamera" onClick={()=>{
+                                    setModal(false)
+                                    setLoadImg(true)
+                                }}>
+                                     <img src={camera} alt="" className='cameraPng' />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="user-login-info">
+                            <p>{userinfo.user_name}</p>
+                        </div>
+                    </div>
+                    <div className="widjet2-container">
+                        <Link to="/settings/" className="linking"><p>Settings <ion-icon name="settings"></ion-icon></p></Link>
+                    </div>
+                    <div className="widjet2-container">
+                        <Link to="/analitics/" className="linking"><p>Analitics <ion-icon name="stats"></ion-icon></p></Link>
                     </div>
 
                 </div>

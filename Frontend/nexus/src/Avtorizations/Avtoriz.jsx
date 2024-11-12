@@ -17,6 +17,7 @@ const Avtoriz = ({setIsAuth})=>{
                 setUserData({password: "", number : ""})
                 localStorage.setItem('userId', response.data.user_id)
                 setIsAuth(true)
+                window.location.reload()
             }
         }
         fetchUser()

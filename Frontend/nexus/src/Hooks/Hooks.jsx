@@ -9,6 +9,7 @@ const useHook = ()=>{
     const[isAuth, setIsAuth] = useState(false)
     const[messengers, setMessengers] = useState([])
     const[activeChat, setActiveChat] = useState(localStorage.getItem('activeChat'))
+    const[isLoading, setIsLoading] = useState(true)
 
     useEffect(()=>{
         const Fetch = async()=>{
@@ -20,12 +21,16 @@ const useHook = ()=>{
                     setUsers(answear.data)
                     const res = await axios.get(`http://127.0.0.1:8000/getChat/${storage}/`)
                     setMessengers(res.data)
-
+                    setTimeout(()=>{
+                        setIsLoading(false)
+                    }, 1500)
+                    
                 }
                 catch{
                     console.log("У вас не идут данные с сервера")
                 }
             }
+
 
             if(localStorage.getItem('userId') == null){
                 setIsAuth(false)
@@ -41,6 +46,9 @@ const useHook = ()=>{
 
     
 
-    return {userinfo, isAuth, setIsAuth, users, messengers, setMessengers, activeChat, setActiveChat}
+    return {
+        userinfo, isAuth, setIsAuth, users, messengers,
+         setMessengers, activeChat, setActiveChat, storage, isLoading, setIsLoading
+    }
 }
 export default useHook
