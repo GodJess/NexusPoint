@@ -22,7 +22,7 @@ const Avtoriz = ({setIsAuth})=>{
         }
         fetchUser()
     }
-    return(
+    return(                                                                                                                     
         <div className="main-awtoriz-window">
             <div className="window-avtoriz">
                 <div className="froms-avtoriz">

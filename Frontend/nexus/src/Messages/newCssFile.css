@@ -1,0 +1,224 @@
+.modalContainer{
+    display: block;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.479);
+    top: 0;
+    left: 0;
+}
+
+.mainContainer-window{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    min-width: 300px;
+    width: 60%;
+    margin: auto;
+    margin-top: 100px;
+    background-color: white;
+    border-radius: 30px;
+    border: solid 3px black;
+    animation: anim 0.3s linear;
+}
+
+.header-modelloadFiles-container{
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    margin-bottom: 5px;
+    justify-content: space-between;
+    height: 40px;
+    align-items: center;
+}
+.header-modelloadFiles-container h1{
+    margin: 0px;
+    padding: 0;
+    margin-left: 20px;
+    font-size: 25px;
+}
+.close-modal-button{
+    width: 36px;
+    height: 36px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 20px;
+}
+
+.main-modalload-files-block{
+    display: flex;
+    width: 84%;
+    min-width: 300px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+}
+.loadfilesBlock{
+    display: flex;
+    justify-content: center;
+    width: 35%;
+    min-width: 200px;
+    flex-wrap: wrap;
+}
+.listFilesBlock{
+    display: flex;
+    justify-content: center;
+    width: 60%;
+    min-width: 200px;
+    flex-wrap: wrap;
+}
+
+.loadBlock-name{
+    display: flex;
+    width: 100%;
+    height: 40px;
+    font-size: 20px;
+    font-weight: bold;
+    align-items: center;
+}
+.block-opacity-load{
+    height: 40px;
+    width: 100%;
+}
+
+.blockLoad-files{
+    display: flex;
+    justify-content: center;
+    position: relative;
+    align-items: center;
+    width: 190px;
+    height: 190px;
+    border: solid 3px black;
+    border-radius: 20px; 
+}
+.PhotoFiles{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+}
+.picture-load{
+    width: 100px;
+    height: 100px;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.list-files{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    height: 190px;
+    border: solid 3px black;
+}
+.list-files-header{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    height: 30px;
+    color: black;
+    font-size: 20px;
+}
+
+.list-files-header p{
+    padding: 0;
+    margin: 0px;
+    margin-left: 10px;
+}
+
+.list-files-scrollBlock{
+    display: block;
+    width: 90%;
+    height: 150px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    scroll-snap-type: mandatory;
+}
+
+.attechedFiles-block{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 40px;
+    border-top: 2px solid black;
+    border-bottom: 2px solid black;
+    margin-bottom: 5px;
+    justify-content: space-between;
+}
+
+.files-nameBlock{
+    width: 60%;
+    color: black;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 20px;
+}
+.files-nameBlock p{
+    padding: 0;
+    margin: 0px;
+}
+
+.cartRemove{
+    width: 25px;
+    height: 30px;
+    margin-right: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.Sending{
+    display: flex;
+    height: 50px;
+    width: 100%;
+    align-items: center;
+    background: rgb(0,0,0);
+    background: linear-gradient(27deg, rgba(0,0,0,1) 0%, rgba(28,1,1,1) 50%, rgba(55,3,3,1) 100%);
+    color: white;
+    transition: all 0.4s ease;
+}
+.Sending p{
+    padding: 0;
+    margin: 0px;
+    font-size: 20px;
+    margin-left: 10px;
+}
+.Sending:hover{
+    background: linear-gradient(27deg, rgba(0,0,0,1) 0%, rgb(2, 43, 15) 50%, rgb(13, 83, 42) 100%);
+}
+
+
+.text-describe-file{
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    background-color: rgb(63, 62, 62);
+    overflow: hidden;
+    height: 50px;
+}
+.text-describe-file textarea{
+    width: 98%;
+    height: 100%;
+    max-width: 98%;
+    min-width: 98%;
+    max-height: 100%;
+    min-height: 100%;
+    font-size: 15px;
+    background-color: rgb(63, 62, 62);
+    color: white;
+}
+
+@keyframes anim{
+    0%{
+        margin-top: 600px;
+    }
+    100%{
+        margin-top: 100px;
+    }
+}

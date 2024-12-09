@@ -6,15 +6,23 @@ import Messages from './Messages'
 import SendMessage from './Send'
 import axios from 'axios'
 import Window from './WIndow'
+import FilesWindows from './fileWindow'
+import ModelLoadFiles from './ModalLoadFiles'
+
 
 const Messanger = ({activeChat, setActiveChat, storage})=>{
 
     const[messages, setMessages] = useState([])
     const [emojWindow, setEmojWindow] = useState(false)
     const [textMessage, setTextMessage] = useState('')
+    const [fileWindow, setFileWindow] = useState(false)
+    const[nameWindow, setNameWindow] = useState('')
+    const[window, setWindow] = useState(false)
 
     useEffect(()=>{
         const fetch = async()=>{
+            setFileWindow(false)
+            setEmojWindow(false)
             try{
                 const resp = await axios.get(`http://127.0.0.1:8000/getMessage/${activeChat}/`)
                 console.log(`Получить сообщения по чату ${activeChat}`)
@@ -37,8 +45,10 @@ const Messanger = ({activeChat, setActiveChat, storage})=>{
             <main className="block-chat">
 
                 <Messages messages={messages} storage={storage} activeChat={activeChat} />
-                <SendMessage storage={storage} activeChat={activeChat} messages={messages} setMessages={setMessages} emojWindow={emojWindow} setEmojWindow={setEmojWindow} textMessage={textMessage} setTextMessage={setTextMessage}/>
+                <SendMessage storage={storage} activeChat={activeChat} messages={messages} setMessages={setMessages} emojWindow={emojWindow} setEmojWindow={setEmojWindow} textMessage={textMessage} setTextMessage={setTextMessage} fileWindow={fileWindow} setFileWindow={setFileWindow}/>
                 <Window emojWindow={emojWindow} setEmojWindow={setEmojWindow} textMessage={textMessage} setTextMessage={setTextMessage} />
+                <FilesWindows fileWindow={fileWindow} setFileWindow={setFileWindow}  setNameWindow={setNameWindow} setWindow={setWindow} />
+                <ModelLoadFiles setWindow={setWindow} window={window} nameWindow={nameWindow} activeChat={activeChat} />
 
 
             </main>

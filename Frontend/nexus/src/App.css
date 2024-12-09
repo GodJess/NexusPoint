@@ -444,6 +444,7 @@
   height: 40px;
   justify-content: center;
   align-items: center;
+  transition: all 0.3s ease;
   font-size: 30px;
   color: white;
 }
@@ -459,6 +460,12 @@
 }
 .block-smile:hover{
   font-size: 31px;
+}
+
+.attach-block:hover{
+    transform: rotate(50deg);
+    color: rgb(138, 11, 11);
+  
 }
 
 

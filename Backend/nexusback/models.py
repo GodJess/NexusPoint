@@ -41,6 +41,8 @@ class Message(models.Model):
     person_id = models.CharField('person id', max_length=100)
     text = models.TextField('text field message', max_length=2000)
     data_time_message = models.DateTimeField(auto_now_add=True)
+    message_id = models.CharField("message id", max_length= 100, null=True, default="")
+    contain_files = models.BooleanField(default=False)
     
     def __str__(self):
         return self.chat_id
@@ -48,3 +50,14 @@ class Message(models.Model):
     class Meta:
         verbose_name = "Message"
         verbose_name_plural = "messages"
+
+class ImageMessage(models.Model):
+    message_id = models.CharField("message id", max_length= 100, null=True, default="")
+    photo = models.ImageField(upload_to = 'images/',blank=True)
+
+    def __str__(self):
+        return self.message_id
+    
+    class Meta:
+        verbose_name = "Image"
+        verbose_name_plural = "Images"

@@ -4,11 +4,11 @@ from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import userSerializers, messengerSerializers, messageSerializers
-from .models import User, Message, Messenger
+from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer
+from .models import User, Message, Messenger, ImageMessage
 from django.db.models import Q
 # Create your views here.
-from .function import CreateChatID
+from .function import CreateChatID, CreateImageMessage
 
 from django.core.files.base import ContentFile
 
@@ -85,7 +85,7 @@ def addMessage(request, key):
         print(message, chat_id)
 
         if Messenger.objects.filter(chat_id = chat_id).exists():
-            message = Message(chat_id = chat_id, person_id = key, text=message, data_time_message = datetime.datetime.now())
+            message = Message(chat_id = chat_id, person_id = key, text=message, data_time_message = datetime.datetime.now(), contain_files = False)
             message.save()
             return Response({"response": True})
         return Response({"response": False})
@@ -174,7 +174,7 @@ def getStatisticMessage(request, key):
         
 
         receivedMess = 0
-
+        
         for el in mass:
             received = Message.objects.filter(chat_id = el.chat_id).exclude(person_id = key).count()
             receivedMess = int(receivedMess) + int(received)
@@ -196,3 +196,48 @@ def getStatisticMessage(request, key):
             
 
         return Response({'sent': sentMess, 'received': receivedMess ,'top6': top5})
+    
+
+
+@api_view(["GET"])
+def getLastMess(request, key):
+    if request.method == "GET":
+        return Response(messageSerializers(Message.objects.filter(chat_id = key).last(), context = {"request": request}, many=False).data)
+    
+
+@api_view(['GET'])
+def getImages(request, messageId):
+    if request.method == "GET":
+        try:
+            model = ImageMessage.objects.filter(message_id = messageId)
+            return Response(imageSerializer(model, many = True, context={"request": request}).data)
+        
+        except ImageMessage.DoesNotExist:
+            print("Images not found")
+
+        return Response()
+
+
+@api_view(["POST"])
+def uploadImageMessage(request, key):
+    if request.method == "POST":
+        message_id = CreateImageMessage()
+
+        chat_id = request.data.get('chat_id')
+        message = request.data.get('message')
+        listImage = request.FILES.getlist('photos')
+
+        print(f"Полученные файлы: {listImage}")
+
+        if Messenger.objects.filter(chat_id = chat_id).exists():
+            message = Message(chat_id = chat_id, person_id = key, text=message, data_time_message = datetime.datetime.now(), message_id = message_id, contain_files = True)
+            message.save()
+            print("Сообщение успешно сохранено")
+            for element in listImage:
+                image = ImageMessage(message_id = message_id, photo=element)
+
+                image.photo.save(element.name, element)
+                image.save()
+            
+            return Response({"result": True, "message_id": message_id})
+        return Response({"result": False, "message_id": ''})

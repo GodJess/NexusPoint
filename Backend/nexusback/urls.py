@@ -13,4 +13,7 @@ urlpatterns = [
     path('getMessage/<int:key>/', views.getMessage, name="getMessage"),
     path('setUserImg/<int:key>/', views.setUserImg, name="setUserImg"),
     path('getStatisticMessage/<int:key>/', views.getStatisticMessage, name="getStatistic"),
+    path('getLastMess/<int:key>/', views.getLastMess, name = "getLastMess"),
+    path('getMessageImage/<int:messageId>/', views.getImages, name="getImages"),
+    path('uploadImageMessage/<int:key>/', views.uploadImageMessage, name = "uploadImageMessage"),
 ]

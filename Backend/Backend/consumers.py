@@ -27,6 +27,8 @@ class GetMessages(AsyncWebsocketConsumer):
         data = json.loads(text_data)
         message = data.get('text')
         sender = data.get('person_id')
+        message_id = data.get('message_id')
+        contain_files = data.get('contain_files')
 
         # Отправляем сообщение всем пользователям в группе
         await self.channel_layer.group_send(
@@ -36,7 +38,9 @@ class GetMessages(AsyncWebsocketConsumer):
                 'chat_id': self.chat_id,
                 'person_id': sender,
                 'text': message,
-                'data_time_message': datetime.datetime.now().isoformat()  # Преобразование времени
+                'data_time_message': datetime.datetime.now().isoformat(),  # Преобразование времени
+                'message_id': message_id,
+                'contain_files': contain_files
             }
         )
 
@@ -45,5 +49,7 @@ class GetMessages(AsyncWebsocketConsumer):
             'chat_id': event['chat_id'],
             'person_id': event['person_id'],
             'text': event['text'],
-            'data_time_message': event['data_time_message']
+            'data_time_message': event['data_time_message'],
+            'message_id': event['message_id'],
+            'contain_files': event['contain_files']
         }))

@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import '../App.css'
 import axios from 'axios'
 import './message.css'
+import ImageMessage from './ImageMessage'
 
 const Messages = ({ messages, storage, activeChat})=>{
 
@@ -19,33 +20,44 @@ const Messages = ({ messages, storage, activeChat})=>{
     }
 
 
+
+
+
     const checkMessage = (message, index)=>{
-      if(message.person_id == storage ){
-        return(
-          <div key={index} className="chat-container-block your">
-          <div className="message your">
-            <div className="message-text your">
-              <p>{message.text}</p>
-            </div>
-            <div className="message-time your">{getTime(message.data_time_message)}</div>
-          </div>
-          <div className="triangel-your"></div>
-        </div>
-        )
-      }
-      else {
-        return(
-          <div key={index} className="chat-container-block">
-            <div className="message">
-              <div className="message-text">
+      if(message.text.length > 0){
+        if(message.person_id == storage ){
+          return(
+            <div key={index} className="chat-container-block your">
+            <ImageMessage message={message} />
+            <div className="message your">
+              <div className="message-text your">
                 <p>{message.text}</p>
               </div>
-              <div className="message-time">{getTime(message.data_time_message)}</div>
+              <div className="message-time your">{getTime(message.data_time_message)}</div>
             </div>
-            <div className="triangel"></div>
+            <div className="triangel-your"></div>
           </div>
-        )
+          )
+        }
+        else {
+          return(
+            <div key={index} className="chat-container-block">
+              <ImageMessage message={message} />
+              <div className="message">
+                <div className="message-text">
+                  <p>{message.text}</p>
+                </div>
+                <div className="message-time">{getTime(message.data_time_message)}</div>
+              </div>
+              <div className="triangel"></div>
+            </div>
+          )
+        }
       }
+      else{
+        return <ImageMessage message={message} />
+      }
+      
     }
 
 

@@ -6,13 +6,9 @@ import axios from 'axios'
 import { useWebSocket } from 'react-use-websocket';
 
 
-const SendMessage = ({storage, activeChat, messages, setMessages, emojWindow, setEmojWindow, textMessage, setTextMessage})=>{
+const SendMessage = ({storage, activeChat, messages, setMessages, emojWindow, setEmojWindow, textMessage, setTextMessage, fileWindow, setFileWindow})=>{
 
     const socketRef = useRef(null)
-  
-
-
-
 
     const SETTEXT = useCallback((element)=>{
         setTextMessage(element.target.value)
@@ -36,6 +32,8 @@ const SendMessage = ({storage, activeChat, messages, setMessages, emojWindow, se
                         sendMessage(JSON.stringify({
                             'text': textMessage,
                             'person_id': storage,
+                            'message_id': null,
+                            'contain_files': false,
                             
                         }));
                         setTextMessage('');
@@ -76,6 +74,8 @@ const SendMessage = ({storage, activeChat, messages, setMessages, emojWindow, se
                     person_id: data.person_id,
                     text: data.text,
                     data_time_message: data.data_time_message,
+                    message_id: data.message_id,
+                    contain_files: data.contain_files
                 }]);
             };
         };
@@ -93,8 +93,18 @@ const SendMessage = ({storage, activeChat, messages, setMessages, emojWindow, se
         <div className="chart-message-input-block">
             <div className="send-message-container">
             <div className="message-pack">
-                <div className="attach-block">
-                <ion-icon name="attach"></ion-icon>
+                <div className="attach-block" onClick={()=> 
+                    {
+                        if(fileWindow != true){
+                            setFileWindow(true)
+                            setEmojWindow(false)
+                        }
+                        else{
+                            setFileWindow(false)
+                        }
+                    }
+                    }>
+                <ion-icon className="attaches" name="attach"></ion-icon>
                 </div>
                 <div className="text-field-message">
                 <textarea value={textMessage} name="" id="" placeholder='Введите текст сообщения' onChange={(element)=>{
@@ -102,7 +112,10 @@ const SendMessage = ({storage, activeChat, messages, setMessages, emojWindow, se
                 }}></textarea>
                 </div>
                 <div className="block-smile" onClick={()=>{
-                    if(emojWindow == false){setEmojWindow(true)}
+                    if(emojWindow == false){
+                        setEmojWindow(true) 
+                        setFileWindow(false)
+                    }
                     else{setEmojWindow(false)}
                 }}>😎</div>
             </div>

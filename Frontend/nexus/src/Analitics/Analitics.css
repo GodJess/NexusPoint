@@ -110,7 +110,7 @@
     height: 120px;
     background: rgb(0,0,0);
     background: linear-gradient(156deg, rgba(0,0,0,1) 0%, rgba(16,1,1,1) 35%, rgba(44,10,10,1) 47%, rgba(55,3,3,1) 96%);
-    margin-bottom: 70px;
+    margin-bottom: 50px;
     align-items: center;
     justify-content: space-between;
 }

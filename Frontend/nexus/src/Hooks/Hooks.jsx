@@ -34,6 +34,7 @@ const useHook = ()=>{
 
             if(localStorage.getItem('userId') == null){
                 setIsAuth(false)
+                setIsLoading(false)
             } else{
                 setIsAuth(true)
             }
