@@ -3,6 +3,7 @@ import '../App.css'
 import axios from 'axios'
 import './message.css'
 import ImageMessage from './ImageMessage'
+import DocMessage from './DocumentMessage'
 
 const Messages = ({ messages, storage, activeChat})=>{
 
@@ -28,6 +29,7 @@ const Messages = ({ messages, storage, activeChat})=>{
         if(message.person_id == storage ){
           return(
             <div key={index} className="chat-container-block your">
+            <DocMessage message={message} />
             <ImageMessage message={message} />
             <div className="message your">
               <div className="message-text your">
@@ -42,6 +44,7 @@ const Messages = ({ messages, storage, activeChat})=>{
         else {
           return(
             <div key={index} className="chat-container-block">
+              <DocMessage message={message} />
               <ImageMessage message={message} />
               <div className="message">
                 <div className="message-text">
@@ -55,7 +58,11 @@ const Messages = ({ messages, storage, activeChat})=>{
         }
       }
       else{
-        return <ImageMessage message={message} />
+        return <div>
+            <ImageMessage message={message} />
+            <DocMessage message={message} />
+        </div>
+      
       }
       
     }

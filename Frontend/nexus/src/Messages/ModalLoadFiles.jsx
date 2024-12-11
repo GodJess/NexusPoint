@@ -41,6 +41,7 @@ const ModelLoadFiles = ({setWindow, window, nameWindow, activeChat})=>{
                     const formData = new FormData();
                     formData.append('chat_id', activeChat);
                     formData.append('message', textValue);
+                    formData.append('type', nameWindow)
 
                     // Добавляем фотографии в FormData
                     photos.forEach((photo) => {
@@ -111,6 +112,22 @@ const ModelLoadFiles = ({setWindow, window, nameWindow, activeChat})=>{
         };
     }, [activeChat]);
 
+
+    const Input = ()=>{
+        switch(nameWindow){
+            case "image":
+                return <input className='PhotoFiles' onChange={handlePhotoChange} type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
+            case "document":
+                return(<input 
+                className='PhotoFiles' 
+                onChange={handlePhotoChange} 
+                type="file" 
+                name="myFile" 
+                accept=".doc,.docx,.xls,.xlsx,.ppt,.pptx,.mdb,.txt,.pdf" 
+              />)
+        }
+    }
+
     if(window) return(
         <div className="modalContainer">
             <div className="mainContainer-window">
@@ -124,7 +141,8 @@ const ModelLoadFiles = ({setWindow, window, nameWindow, activeChat})=>{
                         <div className="loadBlock-name">Attach</div>
                         <div className="blockLoad-files">
                             <div className="picture-load" style={{backgroundImage: `url(${upload})`}}></div>
-                            <input className='PhotoFiles' onChange={handlePhotoChange} type="file" name="myImage" accept="image/png, image/gif, image/jpeg" />
+                            {/* <input className='PhotoFiles' onChange={handlePhotoChange} type="file" name="myImage" accept="image/png, image/gif, image/jpeg" /> */}
+                            {Input()}
                         </div>
                         <div className="block-opacity-load"></div>
 

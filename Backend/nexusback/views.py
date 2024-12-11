@@ -4,8 +4,8 @@ from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer
-from .models import User, Message, Messenger, ImageMessage
+from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer, DocSerializers
+from .models import User, Message, Messenger, ImageMessage, DocumentMessage
 from django.db.models import Q
 # Create your views here.
 from .function import CreateChatID, CreateImageMessage
@@ -216,8 +216,46 @@ def getImages(request, messageId):
             print("Images not found")
 
         return Response()
+    
+@api_view(['GET'])
+def getDocuments(request, messageId):
+    if request.method == "GET":
+        try:
+            model = DocumentMessage.objects.filter(message_id = messageId)
+            return Response(DocSerializers(model, many = True, context={"request": request}).data)
+        
+        except DocumentMessage.DoesNotExist:
+            print("Images not found")
+
+        return Response()
 
 
+
+# @api_view(["POST"])
+# def uploadImageMessage(request, key):
+#     if request.method == "POST":
+#         message_id = CreateImageMessage()
+
+#         chat_id = request.data.get('chat_id')
+#         message = request.data.get('message')
+#         listImage = request.FILES.getlist('photos')
+
+
+#         print(f"Полученные файлы: {listImage}")
+
+#         if Messenger.objects.filter(chat_id = chat_id).exists():
+#             message = Message(chat_id = chat_id, person_id = key, text=message, data_time_message = datetime.datetime.now(), message_id = message_id, contain_files = True)
+#             message.save()
+#             print("Сообщение успешно сохранено")
+#             for element in listImage:
+#                 image = ImageMessage(message_id = message_id, photo=element)
+
+#                 image.photo.save(element.name, element)
+#                 image.save()
+            
+#             return Response({"result": True, "message_id": message_id})
+#         return Response({"result": False, "message_id": ''})
+    
 @api_view(["POST"])
 def uploadImageMessage(request, key):
     if request.method == "POST":
@@ -225,19 +263,32 @@ def uploadImageMessage(request, key):
 
         chat_id = request.data.get('chat_id')
         message = request.data.get('message')
-        listImage = request.FILES.getlist('photos')
+        listFiles = request.FILES.getlist('photos')
+        typeMessage = request.data.get('type')
 
-        print(f"Полученные файлы: {listImage}")
+        print(f"Полученные файлы: {listFiles}")
 
         if Messenger.objects.filter(chat_id = chat_id).exists():
             message = Message(chat_id = chat_id, person_id = key, text=message, data_time_message = datetime.datetime.now(), message_id = message_id, contain_files = True)
             message.save()
             print("Сообщение успешно сохранено")
-            for element in listImage:
-                image = ImageMessage(message_id = message_id, photo=element)
-
-                image.photo.save(element.name, element)
-                image.save()
+            SaveFiles(typeMessage, listFiles, message_id)
             
             return Response({"result": True, "message_id": message_id})
         return Response({"result": False, "message_id": ''})
+
+
+
+def SaveFiles(typeMessage, list, message_id):
+    if typeMessage == 'image':
+         for element in list:
+            image = ImageMessage(message_id = message_id, photo=element)
+
+            image.photo.save(element.name, element)
+            image.save()
+    elif typeMessage == 'document':
+        for element in list:
+            doc = DocumentMessage(message_id = message_id, document = element)
+
+            doc.document.save(element.name, element)
+            doc.save()
