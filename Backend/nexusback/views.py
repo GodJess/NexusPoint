@@ -292,3 +292,29 @@ def SaveFiles(typeMessage, list, message_id):
 
             doc.document.save(element.name, element)
             doc.save()
+
+
+@api_view(["GET"])
+def TopUsers(request):
+    if request.method == "GET":
+        users = User.objects.all()
+
+        mass = []
+
+        for el in users:
+            count = Message.objects.filter(person_id = el.user_id).count()
+            mass.append({'user_id': el.user_id, "user_name": el.user_name ,  "count": count})
+
+        return Response(mass)
+    return Response()
+    
+@api_view(['GET'])
+def getPhoto(request, key):
+    if request.method == "GET":
+        try:
+            user = User.objects.get(user_id=key)
+            serializer = userSerializers(user, context={'request': request})
+            return Response(serializer.data)
+        except User.DoesNotExist:
+            return Response()
+    return Response()

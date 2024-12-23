@@ -15,13 +15,17 @@
 }
 
 .chart-blocks{
+    position: relative;
     display: flex;
     width: 80%;
+    height: 80%;
     margin: auto;
     flex: wrap;
-    min-width: 380px;
-    flex-wrap: wrap;
-    justify-content: space-between;
+    min-width: 500px;
+    /* justify-content: space-between; */
+    background-color: white;
+    border: 1px solid white;
+    border-radius: 35px;
 }
 
 .block-diagrams{
@@ -58,18 +62,27 @@
     height: 100%;
     display: flex;
     justify-content: center;
+    align-items: center;
 }
 .contentDia{
-    width: 250px;
-    height: 250px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* border: 1px black dashed; */
+    transition: all .4s ease;
 }
-.chart-container {
-    height: 250px; /* Установите желаемую высоту */
-    width: 390px; /* Ширина на 100% */
+.chart-containerss {
+    height: 100%; /* Установите желаемую высоту */
+    width: 100%; /* Ширина на 100% */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 .line-chart-content{
-    width: 60%;
-    height: 250px;
+    width: 100%;
+    height: 100%;
 }
 
 
@@ -110,7 +123,7 @@
     height: 120px;
     background: rgb(0,0,0);
     background: linear-gradient(156deg, rgba(0,0,0,1) 0%, rgba(16,1,1,1) 35%, rgba(44,10,10,1) 47%, rgba(55,3,3,1) 96%);
-    margin-bottom: 50px;
+    margin-bottom: 30px;
     align-items: center;
     justify-content: space-between;
 }
@@ -152,4 +165,319 @@
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
+}
+
+.chartAside{
+    display: flex;
+    position: relative;
+    align-items: center;
+    height: 100%;
+    width: 22%;
+    min-width: 150px;
+    background: rgb(0,0,0);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 5%, rgba(57,4,4,1) 60%);
+    border-top-left-radius: 35px;
+    border-bottom-left-radius: 35px;
+}
+
+.chart-aside-header{
+    width: 100%;
+    height: 13%;
+    /* min-height: 100px; */
+    display: flex;
+    color: white;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    font-weight: bold;
+    position: absolute;
+    top: 0;
+}
+.chart-aside-header h1{
+    margin: 0px;
+    padding: 0;
+}
+
+.chart-main-header{
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 13%;
+    /* min-height: 100px; */
+    border-bottom: 1px solid black;
+}
+
+.chart-logo{
+    width: 70px;
+    height: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 50px;
+}
+
+.aside-block-nav{
+    width: 100%;
+    height: auto;
+}
+.aside-block-link{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+.block-triangelll{
+    display: flex;
+    width: 100%;
+    justify-content: flex-end;
+}
+
+.aside-block-link:hover{
+    .block-triangelll .right-triangle{
+        border-bottom: 10px solid #fff;
+    }
+
+     .block-triangelll .left-triangle{
+        border-top: 10px solid #fff;
+    }
+}
+
+.right-triangle {
+    width: 0;
+    height: 0;
+    transition: all 0.4s ease;
+    border-left: 8px solid transparent;  /* Левый край треугольника */
+    border-bottom: 10px solid transparent;    /* Цвет и высота треугольника */
+}
+.left-triangle{
+    width: 0;
+    height: 0;
+    transition: all 0.4s ease;
+    border-left: 8px solid transparent;
+    border-top: 10px solid transparent;
+}
+
+.aside-link{
+    height: 50px;
+    display: flex;
+    width: 90%;
+    max-width: 90%;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-bottom-left-radius: 15px;
+    background: rgb(217,217,217);
+    background: linear-gradient(90deg, rgba(217,217,217,1) 0%, rgba(57,4,4,1) 31%);
+    border-top: solid 2px black;
+    border-bottom: solid 2px black;
+    border-left: solid 2px black;
+    color: white;
+    font-size: 18px;
+    transition: all 0.4s ease;
+    box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
+}
+.aside-link:hover{
+    list-style: none;
+    text-decoration: none;
+    color: black;
+    background: white;
+}
+
+.aside-link:focus{
+    list-style: none;
+    text-decoration: none;
+    color: black;
+    background: white;
+    background: white;
+}
+
+.aside-link.active{
+    background: #fff;
+    color: black;
+}
+
+
+.chart-main-block{
+    width: 78%;
+    min-width: 350px;
+    height: 100%;
+    overflow: hidden;
+}
+
+.mainChart-block{
+    display: flex;
+    width: 100%;
+    height: 87%;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.chart-container{
+    display: flex;
+    flex-wrap: wrap;
+    width: 80%;
+    height: 550px;
+}
+.chart-container-header{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 40px;
+    font-size: 25px;
+    color: black;
+    font-weight: bold;
+}
+.chart-container-block{
+    display: flex;
+    width: 100%;
+    height: 430px;
+    justify-content: center;
+}
+
+.chart-topUsers-block{
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: flex-start;
+    justify-content: space-around;
+}
+
+.chart-user-container, .toplist-users{
+    justify-content: center;
+    background-color: #F1F1F1;
+    width: 43%;
+    min-width: 300px;
+    height: 70%;
+    border-radius: 30px;
+    -webkit-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    -moz-box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    box-shadow: 4px 4px 8px 0px rgba(34, 60, 80, 0.2);
+    flex-wrap: wrap;
+}
+
+.chart-user-container{
+    display: flex;
+}
+
+.toplist-users{
+    background-color: black;
+}
+
+.chartUser-container{
+    display: flex;
+    height: 60%;
+    position: relative;
+    width: 90%;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.chartUser-container-info{
+    display: block;
+    height: 30%;
+    width: 90%;
+    color: black;
+    font-weight: 700;
+    font-size: 22px;
+}
+.chartUser-container-info p{
+    padding: 0;
+    margin: 0px;
+    margin-bottom: 5px;
+    margin-left: 10px;
+}
+
+.chartUser-image{
+    margin-bottom: 10px;
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    border: solid 2px #FF9D00;
+    /* background-image: url("https://avatars.mds.yandex.net/i?id=8c0e98c66bd923e5aa5505ed5eb97d16_l-5163220-images-thumbs&n=13"); */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.block-crown{
+    position: absolute;
+    width: 100%;
+    height: 70px;
+    top:0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.crown{
+    width: 80px;
+    height: 50px;
+    background-image: url('../assets/Crown.png');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.top5user-container{
+    display: flex;
+    width: 90%;
+    height: 50px;
+    background: #7E0707;
+    border-radius: 15px;
+    margin: auto;
+        margin-top: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top5user-container:first-child{
+    background: rgb(217,212,209);
+    background: linear-gradient(90deg, rgba(217,212,209,1) 0%, rgba(115,112,111,1) 53%);
+    color: black;
+}
+
+.top5user-container:nth-child(2){
+    background: rgb(168,54,9);
+background: linear-gradient(90deg, rgba(168,54,9,1) 0%, rgba(66,21,3,1) 67%);
+}
+
+.top5user-photo-block{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    margin-left: 5px;
+    width: 140px;
+}
+
+.topPhotoBlock{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: solid 2px black;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-right: 8px;
+}
+.top5user-name{
+    width: 80px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+}
+
+.top5user-result{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 140px;
+    color: rgb(255, 255, 255);
+    font-weight: 600;
+    font-size: 16px;
+    margin-left: 5px;
 }

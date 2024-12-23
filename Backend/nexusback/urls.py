@@ -17,4 +17,6 @@ urlpatterns = [
     path('getMessageImage/<int:messageId>/', views.getImages, name="getImages"),
     path('getDocuments/<int:messageId>/', views.getDocuments, name = "getDocuments"),
     path('uploadImageMessage/<int:key>/', views.uploadImageMessage, name = "uploadImageMessage"),
+    path('topUsers/', views.TopUsers, name="topUsers"),
+    path('getPhoto/<int:key>/', views.getPhoto, name="getPhoto")
 ]
