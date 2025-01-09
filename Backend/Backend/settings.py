@@ -130,6 +130,15 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.mail.ru'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "point.nexus@mail.ru"
+EMAIL_HOST_PASSWORD = "m2mLm3KLwKXZEgqd6EDD"
+EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'

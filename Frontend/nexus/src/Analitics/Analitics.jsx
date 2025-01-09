@@ -207,8 +207,8 @@ const Analitics = ()=>{
                                                     datasets: [{
                                                         data: [statistic.sent, statistic.received],
                                                         backgroundColor: [
-                                                            'rgb(50, 196, 149)',
-                                                            'rgb(229, 13, 191)',
+                                                            '#FF7400',
+                                                            '#FF9640',
                                                         ],
                                                     }],
                                                 }}

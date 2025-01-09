@@ -13,7 +13,7 @@ class User(models.Model):
     user_mail = models.CharField('user mail', max_length=100, default = "")
     user_phone = models.CharField('phone', max_length=12)
     user_img = models.ImageField(upload_to = 'images/',blank=True, null=True, default="images/user.png")
-    password = models.CharField("password", max_length=100, default='')
+    password = models.CharField("password", max_length=100, default='', null=True)
     
     def __str__(self):
         return self.user_id

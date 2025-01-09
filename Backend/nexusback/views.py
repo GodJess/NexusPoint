@@ -11,6 +11,10 @@ from django.db.models import Q
 from .function import CreateChatID, CreateImageMessage
 
 from django.core.files.base import ContentFile
+from django.core.mail import send_mail
+
+
+import random
 
 import json
 import datetime
@@ -37,6 +41,42 @@ def getData(request):
             return Response(userSerializers(User.objects.filter(user_phone= number, password=password).first(), many=False, context={'request': request}).data)
         except User.DoesNotExist:
             return Response()
+        
+
+@api_view(['POST', 'GET'])
+def authToken(request):
+    if request.method == "POST":
+        phone = request.data.get('number')
+        password = request.data.get('password')
+
+        user = User.objects.filter(user_phone=phone, password=password).first()
+        if user:
+            if user.user_mail != None:
+                randomToken = random.randint(100000,999999)
+                try:
+                    send_email_example(user.user_name, randomToken, 'point.nexus@mail.ru', user.user_mail)
+                    return Response({'result': True, 'token': randomToken})
+                except Exception as e:
+                    print(f"Ошибка отправки: {e}")
+                    return Response({'result': False, 'token': None, 'error': str(e)}) # return error
+            else:
+                return Response({'result': True, 'token': None})
+        else:
+            return Response({'result': False, 'token': None})
+    else:
+        return Response({'result': False, 'token': None})
+
+        
+        
+
+
+def send_email_example(user_name, token, fromMail, toMail):
+        subject = f'Your({user_name}) auth-token'
+        recipient_list = [toMail]
+        send_mail(subject, str(token), fromMail, recipient_list)
+
+
+
         
 @api_view(['GET'])
 def getUsers(request):
