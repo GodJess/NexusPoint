@@ -6,8 +6,8 @@ import {useEffect, useRef, useState} from 'react'
 
 import { getLastMessage } from './class'
 
-
-const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messengers, setActiveCompanion})=>{
+// setAllMessages, setCheckNew, checkNew 
+const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messengers, setActiveCompanion, })=>{
     const {userinfo, storage} = useHook()
     const[last, setLast] = useState('')
     const [persId, setPersId] = useState('')
@@ -48,6 +48,14 @@ const UserCart = ({el, chatId, activeChat, setActiveChat, setMessengers, messeng
             const data = JSON.parse(event.data);
             setLast(data.text)
             setPersId(data.person_id)
+            // добавление новых сообщений в список последних сообщений 
+            // setAllMessages(prev=>[...prev, {chat_id: data.chat_id, 'data_time_message': data.data_time_message}])
+            // if(checkNew){
+            //   setCheckNew(false)
+            // }
+            // else{
+            //   setCheckNew(true)
+            // }
             };
         };
 

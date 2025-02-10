@@ -17,7 +17,14 @@ urlpatterns = [
     path('getLastMess/<int:key>/', views.getLastMess, name = "getLastMess"),
     path('getMessageImage/<int:messageId>/', views.getImages, name="getImages"),
     path('getDocuments/<int:messageId>/', views.getDocuments, name = "getDocuments"),
+    path('getVideos/<int:messageId>/', views.getVideos, name = "getVideos"),
     path('uploadImageMessage/<int:key>/', views.uploadImageMessage, name = "uploadImageMessage"),
     path('topUsers/', views.TopUsers, name="topUsers"),
-    path('getPhoto/<int:key>/', views.getPhoto, name="getPhoto")
+    path('getPhoto/<int:key>/', views.getPhoto, name="getPhoto"),
+    path('changeData/<int:key>/', views.changeData, name = 'changeData'),
+    path('ChangePassword/<int:key>/', views.ChangePassword, name ='ChangePassword'),
+    path('confirmCode/<int:key>/', views.ConfirmCode, name = "confirm"),
+    path('deleteChat/<int:key>/', views.DeleteChat, name='deleteChat'),
+    path('deleteChatHistory/<int:key>/', views.DeleteChatHistory, name='deleteChatHistory'),
+    path('getYourChatsMessages/<int:key>/', views.GetYourChatMessages, name="getChatMessages"),
 ]

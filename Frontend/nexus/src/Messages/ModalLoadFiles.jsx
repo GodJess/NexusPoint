@@ -125,6 +125,8 @@ const ModelLoadFiles = ({setWindow, window, nameWindow, activeChat})=>{
                 name="myFile" 
                 accept=".doc,.docx,.xls,.xlsx,.ppt,.pptx,.mdb,.txt,.pdf" 
               />)
+            case "video":
+                return <input className="PhotoFiles"  onChange={handlePhotoChange} type="file" name="myImage" accept="video/mp4, video/webm, video/ogg" />
         }
     }
 

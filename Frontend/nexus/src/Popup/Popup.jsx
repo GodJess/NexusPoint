@@ -22,6 +22,7 @@ const Popup = ({modal, setModal, setIsAuth, setLoadImg, loadImg})=>{
             localStorage.removeItem("userId")
             localStorage.removeItem('activeChat')
             setIsAuth(false)
+            window.location.reload()
         }, 1000)
     }
 

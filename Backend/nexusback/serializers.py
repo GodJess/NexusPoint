@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import User, Messenger, Message, ImageMessage, DocumentMessage
+from .models import User, Messenger, Message, ImageMessage, DocumentMessage, VideoMessage
 
 class userSerializers(serializers.ModelSerializer):
     class Meta:
@@ -24,4 +24,9 @@ class imageSerializer(serializers.ModelSerializer):
 class DocSerializers(serializers.ModelSerializer):
     class Meta:
         model = DocumentMessage
+        fields = "__all__"
+
+class VideoSerializers(serializers.ModelSerializer):
+    class Meta:
+        model = VideoMessage
         fields = "__all__"

@@ -72,3 +72,14 @@ class DocumentMessage(models.Model):
     class Meta:
         verbose_name = "Document"
         verbose_name_plural = "Documents"
+
+class VideoMessage(models.Model):
+    message_id = models.CharField("message id", max_length= 100, null=True, default="")
+    video = models.FileField(upload_to='videos/')
+
+    def __str__(self):
+        return self.message_id
+    
+    class Meta:
+        verbose_name = "Video"
+        verbose_name_plural = "Videos"

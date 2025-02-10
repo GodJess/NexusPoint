@@ -4,11 +4,11 @@ from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer, DocSerializers
-from .models import User, Message, Messenger, ImageMessage, DocumentMessage
+from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer, DocSerializers, VideoSerializers
+from .models import User, Message, Messenger, ImageMessage, DocumentMessage, VideoMessage
 from django.db.models import Q
 # Create your views here.
-from .function import CreateChatID, CreateImageMessage
+from .function import CreateChatID, CreateImageMessage, CheckChangesData
 
 from django.core.files.base import ContentFile
 from django.core.mail import send_mail
@@ -18,6 +18,7 @@ import random
 
 import json
 import datetime
+# from datetime import datetime
 
 
 
@@ -268,6 +269,19 @@ def getDocuments(request, messageId):
             print("Images not found")
 
         return Response()
+    
+@api_view(['GET'])
+def getVideos(request, messageId):
+    if request.method == "GET":
+        try:
+            model = VideoMessage.objects.filter(message_id = messageId)
+            return Response(VideoSerializers(model, many = True, context={"request": request}).data)
+        
+        except VideoMessage.DoesNotExist:
+            print("Images not found")
+
+        return Response()
+
 
 
 
@@ -332,6 +346,13 @@ def SaveFiles(typeMessage, list, message_id):
 
             doc.document.save(element.name, element)
             doc.save()
+    elif typeMessage == 'video':
+        for element in list:
+            video = VideoMessage(message_id = message_id, video = element)
+
+            video.video.save(element.name, element)
+            video.save()
+
 
 
 @api_view(["GET"])
@@ -358,3 +379,109 @@ def getPhoto(request, key):
         except User.DoesNotExist:
             return Response()
     return Response()
+
+
+@api_view(['POST'])
+def changeData(request, key):
+    if request.method == "POST":
+        login = request.data.get('user_name')
+        fname = request.data.get('user_first_name')
+        lname = request.data.get('user_last_name')
+        date_birth = request.data.get('user_date_birth')
+        descript = request.data.get('user_descript')
+        mail = request.data.get('user_mail')
+
+        user = User.objects.filter(user_id = key).first()
+
+        if user:
+           response =  CheckChangesData(login, fname, lname, date_birth, descript, mail, user, key)
+           if response == "Success":
+               return Response({"change": True})
+           else:
+               return Response({"change" : False, "error": "This user_login has already been reserves"}) 
+        else:
+            return Response({"change": False, "error": "Third-party issues"})
+    else:
+        return Response({})
+
+
+@api_view(['POST', 'GET'])
+def ConfirmCode(request, key):
+    if request.method == "GET":
+       
+       user = User.objects.filter(user_id = key).first()
+       if user:
+            if user.user_mail != None:
+                randomToken = random.randint(100000,999999)
+                try:
+                    send_email_example(user.user_name, randomToken, 'point.nexus@mail.ru', user.user_mail)
+                    return Response({'result': True, 'token': randomToken})
+                except Exception as e:
+                    print(f"Ошибка отправки: {e}")
+                    return Response({'result': False, 'token': None, 'error': str(e)}) # return error
+            else:
+                return Response({'result': True, 'token': None})
+    else:
+        return Response({'result': True, 'token': None})
+       
+
+    
+
+@api_view(["POST", "GET"])
+def ChangePassword(request, key):
+    if request.method == "POST":
+        password = request.data.get('password')
+
+        try:
+            user = User.objects.filter(user_id = key).first()
+            if user:
+                user.password = password
+                user.save()
+
+                return Response({'result': True})
+            else:
+                return Response({})
+        except User.DoesNotExist:
+            return Response({})
+    else:
+        return Response({})
+
+@api_view(["GET"])
+def DeleteChat(request, key):
+    if request.method == "GET":
+        try:
+            Messenger.objects.filter(chat_id = key).delete()
+            return Response({"result" : True})
+        except Messenger.DoesNotExist:
+            return Response({"result" : False})
+        
+
+
+@api_view(["GET"])
+def DeleteChatHistory(request, key):
+    if request.method == "GET":
+        try:
+            Message.objects.filter(chat_id = key).delete()
+            return Response({"result" : True})
+        except Message.DoesNotExist:
+            return Response({"result" : False})
+
+@api_view(['GET'])
+def GetYourChatMessages(request, key):
+    if request.method == "GET":
+        messages = []
+        try:
+            chats = Messenger.objects.filter(
+                    Q(person1_id=key) | Q(person2_id=key)
+                )
+            
+            for el in chats:
+                message = Message.objects.filter(chat_id = el.chat_id).last()
+                if message is not None:
+                    messages.append({"chat_id": message.chat_id, "data_time_message" : message.data_time_message})
+            sorted_messages = sorted(messages, key=lambda x: x['data_time_message'])
+                
+            return Response(sorted_messages)
+
+        except (Messenger.DoesNotExist ,Message.DoesNotExist):
+            return Response()

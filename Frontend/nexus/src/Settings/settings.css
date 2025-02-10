@@ -387,6 +387,7 @@ span{
     width: 66%;
     height: 70%;
     display: flex;
+    position: relative;
     justify-content: center;
     background-color: #FBF9F9;
     border: solid 1px #e4e2e2;
@@ -442,7 +443,6 @@ span{
 .container-chats table thead{
     width: 100%;
     height: 50px;
-    background: #0da887;
     border-top-left-radius: 25px;
     border-top-right-radius: 25px;
 }
@@ -468,7 +468,7 @@ th, td{
 
 tbody tr:nth-child(odd){
     background-color: #e4dfdf;
-    color: #0da887;
+    color: #7E0707;
     font-weight: 700;
 }
 
@@ -486,7 +486,7 @@ tbody tr:nth-child(odd){
     /* background: rgba(23, 23, 23, 0.684);        цвет дорожки */
   }
   .scroll-table::-webkit-scrollbar-thumb {
-    background-color: #0da887;    /* цвет плашки */
+    background-color: #7E0707;    /* цвет плашки */
     border-radius: 20px;      
     /* border: solid 1px rgb(64, 5, 5); */
   }
@@ -513,6 +513,10 @@ tbody tr:nth-child(odd){
     font-weight: 700;
     border-radius: 8px;
     transition: all 0.3s ease;
+  }
+
+  .chatDelete.Clear{
+    background: #f44336;
   }
 
   .chatDelete:hover{
@@ -570,3 +574,49 @@ tbody tr:nth-child(odd){
     width: 100%;
     height: auto;
   }
+
+  .two-factor-auth-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.twoFactorInput {
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 16px;
+    outline: none;
+    border: #7E0707 2px solid;
+}
+
+.timer {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.confirm-button {
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s;
+    background: #7E0707;
+}
+
+.confirm-button:hover {
+    background: #000000; /* Более светлый оттенок для эффекта наведения */
+}
+
+.backOnMain{
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin-top: 10px;
+    margin-left: 25px;
+    font-size: 20px;
+    font-weight: bold;
+}

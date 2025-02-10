@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react"
 import useHook from "../../Hooks/Hooks"
+import axios from "axios";
 
 const PersonalData = ()=>{
 
-        const { userinfo } = useHook();
+        const { userinfo, storage } = useHook();
         const [ info, setInfo ] = useState({
             user_name: "",
             user_first_name: "",
@@ -29,6 +30,30 @@ const PersonalData = ()=>{
                 // setInfo(userinfo)
             }
         }, [userinfo])
+
+
+        const SendChangesData = ()=>{
+            const send = async() =>{
+                try{
+                    let response = await axios.post(`http://127.0.0.1:8000/changeData/${storage}/`, info)
+                    if(response.data != null){
+                        if(response.data.change == true){
+                            alert("The data has been updated successfully")
+                        }
+                        else{
+                            alert(`error: ${response.data.error}`)
+                            window.location.reload()
+                        }
+                    }
+                }
+                catch(error){
+                    console.log(`Error : ${error}`)
+                    window.location.reload()
+                }
+            }
+
+            send()
+        }
 
         return(
             <div id="1" className="chart-container">
@@ -97,7 +122,7 @@ const PersonalData = ()=>{
 
                                 </div>
 
-                                <button type="button" className="dataSetBtn" >Save changes</button>
+                                <button type="button"  className="dataSetBtn" onClick={()=>{SendChangesData()}}>Save changes</button>
                             </div>
                         </div>
                     </div>

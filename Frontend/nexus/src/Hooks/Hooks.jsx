@@ -10,6 +10,7 @@ const useHook = ()=>{
     const[messengers, setMessengers] = useState([])
     const[activeChat, setActiveChat] = useState(localStorage.getItem('activeChat'))
     const[isLoading, setIsLoading] = useState(true)
+    const[allMessages, setAllMessages] = useState([])
 
     useEffect(()=>{
         const Fetch = async()=>{
@@ -21,6 +22,8 @@ const useHook = ()=>{
                     setUsers(answear.data)
                     const res = await axios.get(`http://127.0.0.1:8000/getChat/${storage}/`)
                     setMessengers(res.data)
+                    const responses = await axios.get(`http://127.0.0.1:8000/getYourChatsMessages/${storage}/`)
+                    setAllMessages(responses.data)
                     setTimeout(()=>{
                         setIsLoading(false)
                     }, 1500)
@@ -49,7 +52,8 @@ const useHook = ()=>{
 
     return {
         userinfo, isAuth, setIsAuth, users, messengers,
-         setMessengers, activeChat, setActiveChat, storage, isLoading, setIsLoading
+         setMessengers, activeChat, setActiveChat, storage, isLoading, setIsLoading,
+        allMessages, setAllMessages
     }
 }
 export default useHook
