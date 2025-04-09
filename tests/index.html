@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Видеоплеер</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="video-player">
+        <div class="video-container">
+            <video id="nexusVideoPlayer">
+                <source src="Shrak.mp4" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+        </div>
+        <div class="controls">
+            <button id="playPauseBtn" class="control-btn">▶️</button>
+            <input type="range" id="progressBar" class="progress-bar" value="0">
+            <button id="fullscreenBtn" class="control-btn">⛶</button>
+            <span id="currentTime">0:00</span> / <span id="duration">0:00</span>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

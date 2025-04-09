@@ -1,5 +1,6 @@
 from .models import Messenger, Message, User
 import random
+import string
 
 def CreateChatID():
     number = 0
@@ -50,3 +51,46 @@ def CheckChangesData(login, fname, lname, date_birth, descript, mail, user, key)
     
     user.save()
     return response
+
+def generate_random_string(length=20):
+    # Определяем символы, которые будут использоваться
+    characters = string.ascii_letters + string.digits + string.punctuation + "_-"
+    
+    # Генерируем случайную строку
+    random_string = ''.join(random.choice(characters) for _ in range(length))
+    
+    return random_string
+
+def CreateUserID():
+    number = 0
+    flag = True
+    while flag:
+        number = random.randint(1, 2000000000)
+        if User.objects.filter(user_id = number):
+            print('чат с таким id уже есть')
+        else:
+            flag = False
+            return number
+        
+def generate_strong_password(length=12):
+    # Определяем набор символов для пароля
+    lowercase = string.ascii_lowercase  
+    uppercase = string.ascii_uppercase  
+    digits = string.digits    
+    punctuation = string.punctuation    
+    # Объединяем все символы в один набор
+    all_characters = lowercase + uppercase + digits + punctuation
+
+    # Убедимся, что пароль содержит хотя бы один символ из каждой категории
+    password = [
+        random.choice(lowercase),
+        random.choice(uppercase),
+        random.choice(digits),
+        random.choice(punctuation)
+    ]
+
+    password += random.choices(all_characters, k=length - 4)
+
+    random.shuffle(password)
+
+    return ''.join(password)

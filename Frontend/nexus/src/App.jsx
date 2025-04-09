@@ -18,6 +18,7 @@ function App() {
     const [search, setSearch] = useState('')
     const [activeCompanion, setActiveCompanion] = useState({})
     const [loadImg, setLoadImg] = useState(false)
+    const [fixedPanel, setFixedPanel] = useState(false)
 
     useEffect(()=>{
       const fetch = async()=>{
@@ -47,10 +48,10 @@ function App() {
         <div className="main">
           <LoadImg setLoadImg={setLoadImg} loadImg={loadImg} />
           <Popup modal={modal} setModal={setModal} setIsAuth={setIsAuth} setLoadImg={setLoadImg} loadImg={loadImg} />
-          <Header setModal={setModal} search={search} setSearch={setSearch} activeCompanion={activeCompanion} setActiveCompanion={setActiveCompanion} />
+          <Header setModal={setModal} search={search} setSearch={setSearch} activeCompanion={activeCompanion} setActiveCompanion={setActiveCompanion} activeChat={activeChat} fixedPanel={fixedPanel} setFixedPanel={setFixedPanel}/>
           <div className="container">
             <Panel search={search} activeCompanion={activeCompanion} setActiveCompanion={setActiveCompanion} activeChat={activeChat} setActiveChat={setActiveChat} />
-            <Messanger activeChat={activeChat} setActiveChat={setActiveChat} storage={storage} />
+            <Messanger activeChat={activeChat} setActiveChat={setActiveChat} storage={storage} fixedPanel={fixedPanel} setFixedPanel={setFixedPanel} />
           </div>
         </div>
       )

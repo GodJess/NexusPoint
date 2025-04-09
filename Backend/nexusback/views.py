@@ -4,11 +4,13 @@ from django.http import JsonResponse
 from rest_framework.status import HTTP_400_BAD_REQUEST
 from rest_framework.decorators import api_view
 from rest_framework import status
-from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer, DocSerializers, VideoSerializers
-from .models import User, Message, Messenger, ImageMessage, DocumentMessage, VideoMessage
+from .serializers import userSerializers, messengerSerializers, messageSerializers, imageSerializer, DocSerializers, VideoSerializers, ApplicSerializers
+from .models import User, Message, Messenger, ImageMessage, DocumentMessage, VideoMessage, Application
 from django.db.models import Q
 # Create your views here.
-from .function import CreateChatID, CreateImageMessage, CheckChangesData
+from .function import CreateChatID, CreateImageMessage, CheckChangesData, generate_random_string, CreateUserID, generate_strong_password
+
+from django.middleware.csrf import get_token
 
 from django.core.files.base import ContentFile
 from django.core.mail import send_mail
@@ -106,16 +108,20 @@ def createChat(request, key):
         number = CreateChatID()
 
         try:
-            messenger = Messenger(chat_id=number, person1_id=key, person2_id=person_id)
-            messenger.save() 
+            if CheckCreateChat(key, person_id) != True and CheckCreateChat(person_id, key) != True:
+                messenger = Messenger(chat_id=number, person1_id=key, person2_id=person_id)
+                messenger.save() 
             
-
-            return Response({'chat_id': number}, status=status.HTTP_201_CREATED)
+                return Response({'chat_id': number}, status=status.HTTP_201_CREATED)
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
         except Exception as e:
             return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
     return Response({"message": "GET request not supported"}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
 
+
+def CheckCreateChat(one, two):
+    return Messenger.objects.filter(person1_id = one, person2_id = two).exists()
 
 @api_view(['POST', 'GET'])
 def addMessage(request, key):
@@ -283,8 +289,16 @@ def getVideos(request, messageId):
         return Response()
 
 
+@api_view(['GET'])
+def getCountMessages(request, key):
+    if request.method == "GET":
+        try:
+            count = Message.objects.filter(chat_id = key)
+            return Response({'count': count.count()})
+        except Message.DoesNotExist:
+            pass
 
-
+    return Response()
 # @api_view(["POST"])
 # def uploadImageMessage(request, key):
 #     if request.method == "POST":
@@ -485,3 +499,259 @@ def GetYourChatMessages(request, key):
 
         except (Messenger.DoesNotExist ,Message.DoesNotExist):
             return Response()
+
+
+@api_view(['POST', 'GET'])
+def CheckApplications(request):
+    if request.method == "POST":
+        login = request.data.get('login')
+        name = request.data.get('name')
+        # surname = request.data.get('surname')
+        # birth = request.data.get('birthday')
+        # country = request.data.get('country')
+        mail = request.data.get('mail')
+        phone =request.data.get('phone')
+        # description = request.data.get('descript')
+        
+        check1 = checkOne(login)
+        check2 = CheckTwo(mail)
+        check3 = CheckThree(phone)
+        check4 =CheckFour(login)
+        check5 = CheckFive(mail)
+        check6 = CheckSix(phone)
+
+        # if login != None and name != None and surname != None and birth != None and country != None and  phone != None and mail != None:
+        if login != None  and phone != None and mail != None and name != None:
+            if check1 != True and check2 != True and check3 != True and check4 != True and check5 != True and check6 != True:
+                randomToken = random.randint(100000,999999)
+                try:
+                    send_email_example(name, randomToken, 'point.nexus@mail.ru', mail)
+                    return Response({'result': True, 'token': randomToken})
+                except Exception as e:
+                    print(f"Ошибка отправки: {e}")
+                    return Response({'result': False, 'token': None, 'error': str(e)}) # return error
+            else:
+                error = "A user with this"
+                if check1 == True:
+                    error += " username"
+                if check2 == True:
+                    error += ", mail"
+                if check3 == True:
+                    error += " and phone"
+                if check4 == True:
+                    error += " username"
+                if check5 == True:
+                    error += ", mail"
+                if check6 == True:
+                    error += " and phone"
+                error += " already exists"
+                return Response({'result': False, 'token': None, 'error' : error})
+        else:
+            return Response({'result': False, 'token': None, 'error' : 'data is not valid'})
+        
+
+def checkOne(login):
+    return User.objects.filter(user_name = login).exists()
+
+def CheckTwo(mail):
+    return User.objects.filter(user_mail = mail).exists()
+
+def CheckThree(phone):
+    return User.objects.filter(user_phone = phone).exists()
+
+def CheckFour(login):
+    return Application.objects.filter(login = login).exists()
+
+def CheckFive(mail):
+    return Application.objects.filter(email = mail).exists()
+
+def CheckSix(phone):
+    return Application.objects.filter(phone = phone).exists()
+
+
+        
+@api_view(['POST', 'GET'])
+def CreateApplications(request):
+        if request.method == 'POST':
+            login = request.data.get('login')
+            name = request.data.get('name')
+            surname = request.data.get('surname')
+            birth = request.data.get('birthday')
+            country = request.data.get('country')
+            mail = request.data.get('mail')
+            phone =request.data.get('phone')
+            description = request.data.get('descript')
+
+            check1 = checkOne(login)
+            check2 = CheckTwo(mail)
+            check3 = CheckThree(phone)
+            check4 =CheckFour(login)
+            check5 = CheckFive(mail)
+            check6 = CheckSix(phone)
+
+
+            if login != None and name != None and surname != None and birth != None and country != None and  phone != None and mail != None:
+                if check1 != True and check2 != True and check3 != True and check4 != True and check5 != True and check6 != True:
+                    application = Application(login = login, first_name = name, last_name = surname, date_birthday = birth, country = country, email = mail, phone = phone, description = description, access_token = generate_random_string())
+                    application.save()
+                    send_email_application(name, 'point.nexus@mail.ru', mail)
+                    return Response({'result': True})
+                else:
+                    return Response({'result': False})      
+            else:
+                return Response({'result': False})  
+            
+
+def send_email_application(user_name, fromMail, toMail):
+        subject = f'Your ({user_name}) application has been successfully created'
+        text = 'Keep an eye on the emails. If the application is approved, you will receive a password with a login in the mail. Thank you for your choice(team of NexusPoint).'
+        recipient_list = [toMail]
+        send_mail(subject, text, fromMail, recipient_list)
+
+
+@api_view(['GET'])
+def getApplications(request, key):
+    if request.method == 'GET':
+        if key == 'c4bw3e9348ry23g0r23rhgs':
+            try:
+                return Response(ApplicSerializers(Application.objects.all(), many= True, context = {'request': request}).data)
+            except Application.DoesNotExist:
+                return Response({})
+        return Response({})
+
+api_view(['POST'])
+def approveApplic(request):
+    if request.method == 'POST':
+
+        data = json.loads(request.body)
+        token = data.get('token')
+
+        application = Application.objects.filter(access_token = token).first()
+        if application and User.objects.filter(user_name = application.login).exists() != True:
+            user = User()
+            user.user_id = CreateUserID()
+            user.user_name = application.login
+            user.user_first_name = application.first_name
+            user.user_last_name = application.last_name
+            user.user_date_birth = application.date_birthday
+            user.user_descript = application.description
+            user.user_mail = application.email
+            user.user_phone = application.phone
+            user.password = generate_strong_password()
+
+            user.save()
+
+            messanger = Messenger(chat_id = CreateChatID(), person1_id = user.user_id, person2_id = user.user_id)
+            messanger.save()
+
+            application.status = 'accept'
+            application.save()
+            
+            send_email_application_approve(user.user_name, 'point.nexus@mail.ru', user.user_mail, user.password)
+
+def send_email_application_approve(user_name, fromMail, toMail, password):
+    subject = f'Your ({user_name}) application has been successfully created'
+    text = (
+        f'Dear {user_name},\n\n'
+        f'Your application has been approved. Here are your login details:\n'
+        f'Login: {user_name}\n'
+        f'Password: {password}\n\n'
+        f'Please change your password upon your first login.\n\n'
+        f'Thank you for choosing NexusPoint 😄🖖.\n'
+        f'Team NexusPoint.'
+    )
+    recipient_list = [toMail]
+    send_mail(subject, text, fromMail, recipient_list)
+
+@api_view(['POST'])
+def denyApplic(request):
+    if request.method == 'POST':
+
+        token = request.data.get('token')
+        application = Application.objects.filter(access_token=token).first()
+        
+        if application:
+            application.status = 'denied'
+            application.save()
+
+            send_email_application_denied(application.login, 'point.nexus@mail.ru', application.email)
+
+def send_email_application_denied(user_name, fromMail, toMail):
+    subject = f'Your ({user_name}) application has been denied'
+    text = (
+        f'Dear {user_name},\n\n'
+        f'We regret to inform you that your application has been denied.\n'
+        f'If you have any questions, please feel free to contact us.\n\n'
+        f'Thank you for your interest in NexusPoint.\n'
+        f'Team NexusPoint.'
+    )
+    recipient_list = [toMail]
+    send_mail(subject, text, fromMail, recipient_list)
+
+@api_view(['GET'])
+def get_csrf_token(request):
+    token = get_token(request)
+    return JsonResponse({"csrfToken": token})
+
+
+@api_view(['GET'])
+def getAllMedia(request, key):
+    if request.method == 'GET':
+        media = []
+        messages = Message.objects.filter(chat_id=key, contain_files=True)
+
+        for message in messages:
+            images = ImageMessage.objects.filter(message_id=message.message_id)
+            
+            if images.exists():  # Проверяем, есть ли изображения
+                if images.count() > 1:
+                    for image in images:
+                        media.append({
+                            'id': image.id,
+                            'message_id': image.message_id,
+                            'photo': request.build_absolute_uri(image.photo.url) if image.photo else None
+                        })
+                else:
+                    image = images.first()
+                    media.append({
+                        'id': image.id,
+                        'message_id': image.message_id,
+                        'photo': request.build_absolute_uri(image.photo.url) if image.photo else None
+                    })
+        
+        return Response({'media': media})
+    
+    return Response(status=405)
+
+
+@api_view(['GET'])
+def getAllMediaDocs(request, key):
+    if request.method == 'GET':
+        media = []
+        messages = Message.objects.filter(chat_id=key, contain_files=True)
+
+        for message in messages:
+            docs = DocumentMessage.objects.filter(message_id=message.message_id)
+            
+            if docs.exists():  # Проверяем, есть ли изображения
+                if docs.count() > 1:
+                    for doc in docs:
+                        media.append({
+                            'id': doc.id,
+                            'message_id': doc.message_id,
+                            'docs': request.build_absolute_uri(doc.document.url) if doc.document else None
+                            # 'docs': request.build_absolute_uri(image.photo.url) if image.photo else None
+                        })
+                else:
+                    doc = docs.first()
+                    media.append({
+                            'id': doc.id,
+                            'message_id': doc.message_id,
+                            'docs': request.build_absolute_uri(doc.document.url) if doc.document else None
+                    })
+        
+        return Response({'media': media})
+    
+    return Response(status=405)
+        
+        

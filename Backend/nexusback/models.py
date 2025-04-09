@@ -83,3 +83,24 @@ class VideoMessage(models.Model):
     class Meta:
         verbose_name = "Video"
         verbose_name_plural = "Videos"
+
+
+class Application(models.Model):
+    login = models.CharField('Login', max_length=10)
+    first_name = models.CharField('name', max_length=30)
+    last_name = models.CharField('surname', max_length=30)
+    date_birthday = models.DateTimeField(auto_now_add=True)
+    country = models.CharField('country', max_length=100)
+    email = models.CharField('mail', max_length=100)
+    phone = models.CharField('phone', max_length=14)
+    description = models.TextField('descript', max_length=500)
+    access_token = models.TextField('accessToken', max_length=100, null= True)
+    status = models.CharField('status', default="onCheck", max_length=100, null= True)
+    
+
+    def __str__(self):
+        return self.login
+    
+    class Meta:
+        verbose_name = "Aplication"
+        verbose_name_plural = "Aplications"

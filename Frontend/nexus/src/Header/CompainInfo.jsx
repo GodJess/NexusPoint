@@ -1,6 +1,11 @@
+import axios from "axios";
+import useHook from "../Hooks/Hooks";
+import { useRef, useState, useEffect } from "react";
 
+const CompanInfo = ({activeCompanion, setActiveCompanion, count, fixedPanel, setFixedPanel})=>{
 
-const CompanInfo = ({activeCompanion, setActiveCompanion})=>{
+    
+       
     if(activeCompanion != null){
         return(
             <div className="header-message-info">
@@ -11,7 +16,7 @@ const CompanInfo = ({activeCompanion, setActiveCompanion})=>{
                 <div className="user-info-block">
                   <div className="block-name">{activeCompanion.user_first_name} {activeCompanion.user_last_name}</div>
                   <div className="online-params"><ion-icon name="radio-button-on"></ion-icon> Online</div>
-                  <div className="count-message"> ~ 5000 messages</div>
+                  <div className="count-message"> ~ {count} messages</div>
                 </div>
             </div>
             <div className="user-communication">
@@ -24,7 +29,14 @@ const CompanInfo = ({activeCompanion, setActiveCompanion})=>{
               <div className="iconn">
                 <ion-icon className="icons" name="videocam"></ion-icon>
               </div>
-              <div className="iconn btn">
+              <div className="iconn btn" onClick={()=>{
+                if(fixedPanel){
+                  setFixedPanel(false)
+                }
+                else{
+                  setFixedPanel(true)
+                }
+              }}>
                 <ion-icon  className="icons"name="apps"></ion-icon>
               </div>
             </div>

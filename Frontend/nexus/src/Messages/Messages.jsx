@@ -4,6 +4,7 @@ import axios from 'axios'
 import './message.css'
 import ImageMessage from './ImageMessage'
 import DocMessage from './DocumentMessage'
+import VideoMessage from './VideoMessage'
 
 const Messages = ({ messages, storage, activeChat})=>{
 
@@ -31,6 +32,7 @@ const Messages = ({ messages, storage, activeChat})=>{
             <div key={index} className="chat-container-block your">
             <DocMessage message={message} />
             <ImageMessage message={message} />
+            <VideoMessage message={message} />
             <div className="message your">
               <div className="message-text your">
                 <p>{message.text}</p>
@@ -46,6 +48,7 @@ const Messages = ({ messages, storage, activeChat})=>{
             <div key={index} className="chat-container-block">
               <DocMessage message={message} />
               <ImageMessage message={message} />
+              <VideoMessage message={message} />
               <div className="message">
                 <div className="message-text">
                   <p>{message.text}</p>
@@ -61,6 +64,7 @@ const Messages = ({ messages, storage, activeChat})=>{
         return <div>
             <ImageMessage message={message} />
             <DocMessage message={message} />
+            <VideoMessage message={message} />
         </div>
       
       }

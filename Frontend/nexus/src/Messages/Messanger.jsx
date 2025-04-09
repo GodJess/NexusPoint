@@ -8,9 +8,9 @@ import axios from 'axios'
 import Window from './WIndow'
 import FilesWindows from './fileWindow'
 import ModelLoadFiles from './ModalLoadFiles'
+import FixedPanel from './FixedPanel/FixedPanel'
 
-
-const Messanger = ({activeChat, setActiveChat, storage})=>{
+const Messanger = ({activeChat, setActiveChat, storage, fixedPanel, setFixedPanel})=>{
 
     const[messages, setMessages] = useState([])
     const [emojWindow, setEmojWindow] = useState(false)
@@ -18,11 +18,15 @@ const Messanger = ({activeChat, setActiveChat, storage})=>{
     const [fileWindow, setFileWindow] = useState(false)
     const[nameWindow, setNameWindow] = useState('')
     const[window, setWindow] = useState(false)
+    const [media, setMedia] = useState('Images')
+
 
     useEffect(()=>{
         const fetch = async()=>{
             setFileWindow(false)
             setEmojWindow(false)
+            setFixedPanel(false)
+            setMedia('Images')
             try{
                 const resp = await axios.get(`http://127.0.0.1:8000/getMessage/${activeChat}/`)
                 console.log(`Получить сообщения по чату ${activeChat}`)
@@ -47,9 +51,9 @@ const Messanger = ({activeChat, setActiveChat, storage})=>{
                 <Messages messages={messages} storage={storage} activeChat={activeChat} />
                 <SendMessage storage={storage} activeChat={activeChat} messages={messages} setMessages={setMessages} emojWindow={emojWindow} setEmojWindow={setEmojWindow} textMessage={textMessage} setTextMessage={setTextMessage} fileWindow={fileWindow} setFileWindow={setFileWindow}/>
                 <Window emojWindow={emojWindow} setEmojWindow={setEmojWindow} textMessage={textMessage} setTextMessage={setTextMessage} />
-                <FilesWindows fileWindow={fileWindow} setFileWindow={setFileWindow}  setNameWindow={setNameWindow} setWindow={setWindow} />
+                <FilesWindows fileWindow={fileWindow} setFileWindow={setFileWindow}  setNameWindow={setNameWindow} setWindow={setWindow} fixedPanel={fixedPanel} setFixedPanel={setFixedPanel} />
                 <ModelLoadFiles setWindow={setWindow} window={window} nameWindow={nameWindow} activeChat={activeChat} />
-
+                <FixedPanel fixedPanel={fixedPanel} setFixedPanel={setFixedPanel} messages={messages} activeChat={activeChat} media={media} setMedia={setMedia} />
 
             </main>
         )

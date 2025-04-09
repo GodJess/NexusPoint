@@ -5,12 +5,15 @@ import Image from '../assets/IMAGES.png'
 import Doc from '../assets/Documents.png'
 import Video from '../assets/Video.png'
 
-const FilesWindows = ({fileWindow, setFileWindow, setNameWindow, setWindow})=>{
+const FilesWindows = ({fileWindow, setFileWindow, setNameWindow, setWindow, fixedPanel ,setFixedPanel})=>{
 
     const SetDataWindow = (el)=>{
         setNameWindow(el)
         setFileWindow(false)
         setWindow(true)
+        if(fixedPanel){
+            setFixedPanel(false)
+        }
     }
 
     if(fileWindow) return(
