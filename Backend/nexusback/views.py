@@ -41,7 +41,10 @@ def getData(request):
         password = request.data.get('password')
 
         try:
-            return Response(userSerializers(User.objects.filter(user_phone= number, password=password).first(), many=False, context={'request': request}).data)
+            if User.objects.filter(user_phone= number, password=password).exists():
+                return Response(userSerializers(User.objects.filter(user_phone= number, password=password).first(), many=False, context={'request': request}).data)
+            elif User.objects.filter(user_mail = number, password=password).exists():       
+                return Response(userSerializers(User.objects.filter(user_mail= number, password=password).first(), many=False, context={'request': request}).data)
         except User.DoesNotExist:
             return Response()
         
@@ -52,7 +55,11 @@ def authToken(request):
         phone = request.data.get('number')
         password = request.data.get('password')
 
-        user = User.objects.filter(user_phone=phone, password=password).first()
+        if User.objects.filter(user_phone=phone, password=password).exists():
+            user = User.objects.filter(user_phone=phone, password=password).first()
+        elif User.objects.filter(user_mail=phone, password=password).exists():
+            user = User.objects.filter(user_mail=phone, password=password).first()
+
         if user:
             if user.user_mail != None:
                 randomToken = random.randint(100000,999999)
@@ -464,8 +471,18 @@ def ChangePassword(request, key):
 def DeleteChat(request, key):
     if request.method == "GET":
         try:
-            Messenger.objects.filter(chat_id = key).delete()
-            return Response({"result" : True})
+            if Messenger.objects.filter(chat_id = key).exists():
+                messages = Message.objects.filter(chat_id = key)
+                if messages:
+                    for el in messages:
+                        if ImageMessage.objects.filter(message_id = el.message_id).exists():
+                            ImageMessage.objects.filter(message_id = el.message_id).delete()
+                        if DocumentMessage.objects.filter(message_id = el.message_id).exists():
+                            DocumentMessage.objects.filter(message_id = el.message_id).delete()
+                        if VideoMessage.objects.filter(message_id = el.message_id).exists():
+                            VideoMessage.objects.filter(message_id = el.message_id).delete()
+                Messenger.objects.filter(chat_id = key).delete()
+                return Response({"result" : True})
         except Messenger.DoesNotExist:
             return Response({"result" : False})
         
@@ -475,8 +492,18 @@ def DeleteChat(request, key):
 def DeleteChatHistory(request, key):
     if request.method == "GET":
         try:
-            Message.objects.filter(chat_id = key).delete()
-            return Response({"result" : True})
+            if Message.objects.filter(chat_id = key).exists():
+                messages = Message.objects.filter(chat_id = key)
+                for el in messages:
+                    if ImageMessage.objects.filter(message_id = el.message_id).exists():
+                        ImageMessage.objects.filter(message_id = el.message_id).delete()
+                    if DocumentMessage.objects.filter(message_id = el.message_id).exists():
+                        DocumentMessage.objects.filter(message_id = el.message_id).delete()
+                    if VideoMessage.objects.filter(message_id = el.message_id).exists():
+                        VideoMessage.objects.filter(message_id = el.message_id).delete()
+                Message.objects.filter(chat_id = key).delete()
+                return Response({"result" : True})
+            
         except Message.DoesNotExist:
             return Response({"result" : False})
 
@@ -648,6 +675,8 @@ def approveApplic(request):
             application.save()
             
             send_email_application_approve(user.user_name, 'point.nexus@mail.ru', user.user_mail, user.password)
+            return Response({'success': 'User created and approved', 'username': user.user_name}, status=status.HTTP_201_CREATED)
+        return Response({'error': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def send_email_application_approve(user_name, fromMail, toMail, password):
     subject = f'Your ({user_name}) application has been successfully created'
@@ -670,11 +699,13 @@ def denyApplic(request):
         token = request.data.get('token')
         application = Application.objects.filter(access_token=token).first()
         
-        if application:
+        if application and application.status == 'onCheck':
             application.status = 'denied'
             application.save()
 
             send_email_application_denied(application.login, 'point.nexus@mail.ru', application.email)
+            return Response({'success': 'Application denied', 'username': application.login}, status=status.HTTP_200_OK)
+        return Response({'error': ''}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def send_email_application_denied(user_name, fromMail, toMail):
     subject = f'Your ({user_name}) application has been denied'
