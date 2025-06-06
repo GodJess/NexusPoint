@@ -19,7 +19,7 @@ const Messanger = ({activeChat, setActiveChat, storage, fixedPanel, setFixedPane
     const[nameWindow, setNameWindow] = useState('')
     const[window, setWindow] = useState(false)
     const [media, setMedia] = useState('Images')
-
+    
 
     useEffect(()=>{
         const fetch = async()=>{

@@ -76,9 +76,14 @@ const MediaPanel = ({mediaFiles, activeChat, media, isCarouselOpen, setIsCarouse
         )
     }
     else if(media == 'Videos'){
-        return(
+        if(mediaFiles.length > 0) return(
             <div className="MD-container">
 
+            </div>
+        )
+        return(
+            <div className="EmptyList">
+                It's still empty here
             </div>
         )
     }

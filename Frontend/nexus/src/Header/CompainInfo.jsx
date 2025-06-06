@@ -4,7 +4,13 @@ import { useRef, useState, useEffect } from "react";
 
 const CompanInfo = ({activeCompanion, setActiveCompanion, count, fixedPanel, setFixedPanel})=>{
 
-    
+    const CheckLengthName = (f, l)=>{
+        let length = f + " " + l;
+        if(length.length > 15){
+          length = length.substring(0, 15)
+        }
+        return length
+    }
        
     if(activeCompanion != null){
         return(
@@ -14,7 +20,7 @@ const CompanInfo = ({activeCompanion, setActiveCompanion, count, fixedPanel, set
                   <div className="photo" style={{ backgroundImage: `url(${activeCompanion.user_img})`}}></div>
                 </div>
                 <div className="user-info-block">
-                  <div className="block-name">{activeCompanion.user_first_name} {activeCompanion.user_last_name}</div>
+                  <div className="block-name">{CheckLengthName(activeCompanion.user_first_name, activeCompanion.user_last_name)}</div>
                   <div className="online-params"><ion-icon name="radio-button-on"></ion-icon> Online</div>
                   <div className="count-message"> ~ {count} messages</div>
                 </div>
@@ -44,7 +50,11 @@ const CompanInfo = ({activeCompanion, setActiveCompanion, count, fixedPanel, set
         )
     }
     else{
-        return null
+        return(
+          <div className="header-message-info">
+            
+          </div>
+        )
     }
 }
 

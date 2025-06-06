@@ -533,12 +533,8 @@ def CheckApplications(request):
     if request.method == "POST":
         login = request.data.get('login')
         name = request.data.get('name')
-        # surname = request.data.get('surname')
-        # birth = request.data.get('birthday')
-        # country = request.data.get('country')
         mail = request.data.get('mail')
         phone =request.data.get('phone')
-        # description = request.data.get('descript')
         
         check1 = checkOne(login)
         check2 = CheckTwo(mail)
@@ -547,7 +543,6 @@ def CheckApplications(request):
         check5 = CheckFive(mail)
         check6 = CheckSix(phone)
 
-        # if login != None and name != None and surname != None and birth != None and country != None and  phone != None and mail != None:
         if login != None  and phone != None and mail != None and name != None:
             if check1 != True and check2 != True and check3 != True and check4 != True and check5 != True and check6 != True:
                 randomToken = random.randint(100000,999999)
